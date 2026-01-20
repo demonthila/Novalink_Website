@@ -121,7 +121,7 @@
 	   $(tpSideMenu).find('.submenu, .mega-menu').parent().append
 	   ('<button class="tp-menu-close"><i class="fa-solid fa-plus"></i></button>');
 	}
-	let sideMenuList = $('.tp-offcanvas-menu nav > ul > li button.tp-menu-close, .tp-offcanvas-menu nav > ul li.has-dropdown > a, .tp-offcanvas-menu nav > ul li.has-dropdown > ul > li.menu-item-has-children > a');
+	let sideMenuList = $('.tp-offcanvas-menu nav > ul > li button.tp-menu-close, .tp-offcanvas-menu nav > ul li.has > a, .tp-offcanvas-menu nav > ul li.has > ul > li.menu-item-has-children > a');
 	$(sideMenuList).on('click', function (e) {
 		e.preventDefault();
 		$(this).parent().toggleClass('active');

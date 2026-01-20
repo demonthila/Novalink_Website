@@ -205,7 +205,7 @@
                 }
             }
         }
-        & .tp-header-dropdown nav ul li.has-dropdown::after {
+        & .tp-header-dropdown nav ul li.has::after {
             color: var(--tp-common-black);
         }
         & .tp-header-bar button {
@@ -393,7 +393,7 @@
         }
     }
     &-menu{
-        &.tp-header-dropdown nav ul li.has-dropdown::after {
+        &.tp-header-dropdown nav ul li.has::after {
             display: none;
         }
         & > nav{
@@ -594,7 +594,7 @@
                 }
             }
         }
-        &.tp-header-dropdown nav ul li.has-dropdown::after {
+        &.tp-header-dropdown nav ul li.has::after {
             display: none;
         }
     }
@@ -695,7 +695,7 @@
                             & > a{
                                 color: var(--tp-common-white);
                             }
-                            &.has-dropdown{
+                            &.has{
                                 &::after{
                                     color: var(--tp-common-white);
                                 }
@@ -736,7 +736,7 @@
                 }
             }
         }
-        &.tp-header-dropdown nav ul li.has-dropdown::after {
+        &.tp-header-dropdown nav ul li.has::after {
             color: #616161;
         }
     }
@@ -854,7 +854,7 @@
             padding: 10px 0;
             color: var(--tp-common-black);
         }
-        & .tp-header-dropdown nav ul li.has-dropdown::after {
+        & .tp-header-dropdown nav ul li.has::after {
             color: var(--tp-common-black);
         }
         & .tp-header-dropdown nav ul li .tp-submenu {
@@ -895,11 +895,11 @@
                 & > nav{
                     & > ul{
                         & > li{
-                            &.has-dropdown::after {
+                            &.has::after {
                                color: #BFBFC0;
                             } 
                             &:hover{
-                                &.has-dropdown::after {
+                                &.has::after {
                                     color: var(--tp-common-white);
                                 }  
                             }
@@ -980,7 +980,7 @@
                 background-color: var(--tp-common-white);
             }
         }
-        & .tp-header-dropdown nav ul li.has-dropdown::after {
+        & .tp-header-dropdown nav ul li.has::after {
             display: none;
         }
         & .tp-megamenu-wrapper {
