@@ -35,7 +35,7 @@
         }
 
         // Set the recipient email address.
-        $recipient = "novalinkhelp@gmail.com , info@novalinkinnovations.com , thilan@novalinkinnovations , senuridevanji8@gmail.com";
+        $recipient = "novalinkhelp@gmail.com";
 
         // Set the email subject.
         $subject = "New Contact Form Submission from $name";
