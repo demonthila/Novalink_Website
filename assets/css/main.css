@@ -4679,22 +4679,7 @@ body.tp-magic-cursor #magic-cursor {
   letter-spacing: -0.01em;
   color: var(--tp-common-white);
 }
-.tp-header-lang a {
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1;
-  display: inline-block;
-  color: rgba(255, 255, 255, 0.6);
-}
-.tp-header-lang a.active {
-  color: var(--tp-common-white);
-}
-.tp-header-lang a:not(:first-child) {
-  margin-left: 10px;
-}
-.tp-header-lang a:hover {
-  color: var(--tp-common-white);
-}
+
 @media only screen and (min-width: 1600px) and (max-width: 1700px), only screen and (min-width: 1400px) and (max-width: 1599px) {
   .tp-header-box {
     padding-right: 30px;
@@ -5800,7 +5785,7 @@ body.tp-magic-cursor #magic-cursor {
   position: static;
 }
 .tp-header-dropdown nav ul li.has::after {
-  content: "\f107";
+  
   font-size: 16px;
   font-weight: 400;
   margin-left: 2px;
