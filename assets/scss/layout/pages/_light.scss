@@ -1371,13 +1371,13 @@
         }
     }
     & .basic-pagination ul li .current {
-        border-color: #FF5722;
-        background-color: #FF5722;
+        border-color: #0A69E1;
+        background-color: #0A69E1;
         color: var(--tp-common-white);
     }
     & .basic-pagination ul li:hover a {
-        border-color: #FF5722;
-        background-color: #FF5722;
+        border-color: #0A69E1;
+        background-color: #0A69E1;
         color: var(--tp-common-white);
     }
     & .blog-footer-style {
@@ -1385,7 +1385,7 @@
             & .tp-footer-widget-social {
                 & a {
                     color: var(--tp-common-white);
-                    background-color: #FF5722;
+                    background-color: #0A69E1;
                 }
             }
             & .tp-footer-widget-menu {
@@ -1914,7 +1914,7 @@
 		color: var(--tp-common-black);
 	}
 	& .tp-blog-heading-wrap .tp-section-subtitle.pre::before {
-		background: #ff5722;
+		background: #0A69E1;
 	}
 	& .tp-blog-title a {
 		background-color: #F6F6F9;
@@ -1957,7 +1957,7 @@
 		color: var(--tp-common-black);
 	}
 	& .tp-blog-masonry-btn a {
-		color: #ff5722;
+		color: #0A69E1;
 	}
 	& .tp-blog-masonry-item-2 {
 		background: #F6F6F9;
@@ -1999,7 +1999,7 @@
 		background-color: rgba(0, 0, 0, 0.6);
 	}
 	& .postbox-details-text p span {
-		color: #ff5722;
+		color: #0A69E1;
 	}
 	& .postbox-details-list ul li {
 		color: rgba(0, 0, 0, 0.7);

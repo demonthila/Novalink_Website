@@ -220,7 +220,7 @@
                 height: 8px;
                 width: 8px;
                 border-radius: 4px;
-                background: #FF5722;
+                background: #0A69E1;
             }
         }
         &-title{
@@ -369,7 +369,7 @@
                     border-radius: 200px;
                     display: inline-block;
                     letter-spacing: -0.2px;
-                    background: #FF5722;
+                    background: #0A69E1;
                     color: var(--tp-common-white);
                     @media #{$lg,$xs} {
                         font-size: 17px;
@@ -425,7 +425,7 @@
         }
         &-btn{
             & .tp-btn-yellow-green{
-                background: #FF5722;
+                background: #0A69E1;
                 color: var(--tp-common-white);
                 &.btn-60{
                     &:hover{
