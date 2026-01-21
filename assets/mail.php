@@ -1,71 +1,83 @@
 <?php
+/**
+ * Job application handler with attachment support.
+ */
 
-    // Only process POST requests.
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(403);
+    echo 'There was a problem with your submission, please try again.';
+    exit;
+}
 
-        // Get the form fields and remove whitespace.
-        
-        // NAME
-        if(isset($_POST["name"])){
-            $name = trim($_POST["name"]);
-        }else{
-            $name = "";
-        }
+$name        = trim($_POST['name'] ?? '');
+$email       = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+$phone       = trim($_POST['phone'] ?? '');
+$coverLetter = trim($_POST['cover_letter'] ?? '');
+$portfolio   = trim($_POST['portfolio'] ?? '');
+$position    = trim($_POST['position'] ?? '');
 
-        // EMAIL
-        if(isset($_POST["email"])){
-            $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
-        }else{
-            $email = "";
-        }
+if (
+    empty($name) ||
+    empty($email) ||
+    empty($phone) ||
+    empty($coverLetter) ||
+    !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+    !isset($_FILES['cv'])
+) {
+    http_response_code(400);
+    echo 'Please complete all required fields and attach your CV.';
+    exit;
+}
 
-        // MESSAGE
-        if(isset($_POST["message"])){
-            $message = trim($_POST["message"]);
-        }else{
-            $message = "";
-        }
+$cvFile = $_FILES['cv'];
+$allowedExtensions = ['pdf', 'doc', 'docx'];
+$cvExtension = strtolower(pathinfo($cvFile['name'], PATHINFO_EXTENSION));
+$maxFileSize = 8 * 1024 * 1024; // 8MB limit
 
-        // Check that data was sent to the mailer.
-        if ( empty($name) OR empty($message) OR !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            // Set a 400 (bad request) response code and exit.
-            http_response_code(400);
-            echo "Please complete all required fields and try again.";
-            exit;
-        }
+if ($cvFile['error'] !== UPLOAD_ERR_OK || !in_array($cvExtension, $allowedExtensions, true) || $cvFile['size'] > $maxFileSize) {
+    http_response_code(400);
+    echo 'CV upload failed. Please upload a PDF or DOC file up to 8MB.';
+    exit;
+}
 
-        // Set the recipient email address.
-        $recipient = "novalinkhelp@gmail.com";
+$cvContent  = file_get_contents($cvFile['tmp_name']);
+$cvFilename = basename($cvFile['name']);
+$cvMime     = mime_content_type($cvFile['tmp_name']) ?: 'application/octet-stream';
 
-        // Set the email subject.
-        $subject = "New Contact Form Submission from $name";
+$recipient = "careers@novalinkinnovations.com"; // You can change the email recipient address here in the future if needed
+$subject   = 'New Job Application - ' . ($position ?: 'Unspecified role');
 
-        // Build the email content.
-        $email_content = "You have received a new message from your contact form.\n\n";
-        $email_content .= "Name: $name\n";
-        $email_content .= "Email: $email\n\n";
-        $email_content .= "Message:\n$message\n";
+$bodyText  = "A new job application has been submitted.\n\n";
+$bodyText .= "Applicant name: {$name}\n";
+$bodyText .= "Email: {$email}\n";
+$bodyText .= "Phone: {$phone}\n";
+$bodyText .= "Position: " . ($position ?: 'Not provided') . "\n";
+$bodyText .= "Portfolio: " . ($portfolio ?: 'Not provided') . "\n\n";
+$bodyText .= "Cover letter:\n{$coverLetter}\n";
 
-        // Build the email headers.
-        $email_headers = "From: $name <$email>\r\n";
-        $email_headers .= "Reply-To: $email\r\n";
-        $email_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$boundary = '==Multipart_Boundary_' . md5(time());
+$headers  = "From: {$name} <{$email}>\r\n";
+$headers .= "Reply-To: {$email}\r\n";
+$headers .= "MIME-Version: 1.0\r\n";
+$headers .= "Content-Type: multipart/mixed; boundary=\"{$boundary}\"\r\n";
 
-        // Send the email.
-        if (mail($recipient, $subject, $email_content, $email_headers)) {
-            // Set a 200 (okay) response code.
-            http_response_code(200);
-            echo "Thank You! Your message has been sent.";
-        } else {
-            // Set a 500 (internal server error) response code.
-            http_response_code(500);
-            echo "Oops! Something went wrong and we couldn't send your message.";
-        }
+$message  = "--{$boundary}\r\n";
+$message .= "Content-Type: text/plain; charset=\"UTF-8\"\r\n";
+$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+$message .= "{$bodyText}\r\n";
 
-    } else {
-        // Not a POST request, set a 403 (forbidden) response code.
-        http_response_code(403);
-        echo "There was a problem with your submission, please try again.";
-    }
+$message .= "--{$boundary}\r\n";
+$message .= "Content-Type: {$cvMime}; name=\"{$cvFilename}\"\r\n";
+$message .= "Content-Transfer-Encoding: base64\r\n";
+$message .= "Content-Disposition: attachment; filename=\"{$cvFilename}\"\r\n\r\n";
+$message .= chunk_split(base64_encode($cvContent)) . "\r\n";
+$message .= "--{$boundary}--";
 
+if (mail($recipient, $subject, $message, $headers)) {
+    http_response_code(200);
+    echo 'Thank you! Your application has been submitted.';
+} else {
+    http_response_code(500);
+    echo 'Oops! Something went wrong and we could not send your application.';
+}
 ?>

@@ -168,23 +168,12 @@
                         <div class="tp-header-menu tp-header-dropdown dropdown-white-bg">
                             <nav class="tp-mobile-menu-active">
                                 <ul>
-                                    <li class="has">
-                                        <a href="index.html">Home</a>
-                                    </li>
-                                    <!-- <li class="has">
-                                        <a href="">Who we are </a>
-                                    </li> -->
-                                    <li class="has">
-                                        <a href="portfolio-masonry-light.html">Projects</a>
-                                    </li>
-                                    <li class="has">
-                                        <a href="contact-us-light.html">Contact</a>
-                                        
-                                    </li>
-                                    <li class="has">
-                                        <a href="faq-light.html">FAQ.</a>
-                                        
-                                    </li>
+                                    <li class="has"><a href="index.html">Home</a></li>
+                                    <li class="has"><a href="portfolio-masonry-light.html">Projects</a></li>
+                                    <li class="has"><a href="career-light.html">Careers</a></li>
+                                    <li class="has"><a href="contact-us-light.html">Contact</a></li>
+                                    <li class="has"><a href="faq-light.html">FAQ</a></li>
+                                    <li class="has"><a href="job-application-form.html">Apply</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -244,59 +233,55 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-10">
                                 <div class="tp-contact-form-wrap tp-application-form-wrap">
-                                    <form id="contact-form">
+                                    <form id="job-application-form" action="assets/mail.php" method="POST" enctype="multipart/form-data" novalidate>
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="tp-contact-form-input mb-20">
-                                                    <label>Your Name*</label>
-                                                    <input name="name" type="text">
+                                                    <label for="fullName">Full Name*</label>
+                                                    <input id="fullName" name="name" type="text" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="tp-contact-form-input mb-20">
-                                                    <label>Your Email address*</label>
-                                                    <input name="email" type="email">
+                                                    <label for="email">Email Address*</label>
+                                                    <input id="email" name="email" type="email" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="tp-contact-form-input mb-20">
+                                                    <label for="phone">Phone Number*</label>
+                                                    <input id="phone" name="phone" type="tel" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="tp-contact-form-input mb-20">
+                                                    <label for="position">Position Applying For</label>
+                                                    <input id="position" name="position" type="text" placeholder="e.g., Frontend Developer">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="tp-contact-form-input mb-20">
-                                                    <label>Why did you decide to apply to Novalink and why should we select you?*
-                                                    </label>
-                                                    <textarea name="message"></textarea>
+                                                    <label for="coverLetter">Cover Letter*</label>
+                                                    <textarea id="coverLetter" name="cover_letter" rows="6" required></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="tp-contact-form-input mb-20">
-                                                    <label>Tell us about an IT project you worked on and felt proud of.
-                                                    </label>
-                                                    <textarea name="message"></textarea>
+                                                    <label for="portfolio">Portfolio Link (optional)</label>
+                                                    <input id="portfolio" name="portfolio" type="url" placeholder="https://">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
-                                                <div class="tp-contact-form-input mb-20">
-                                                    <label>Share your portfolio or GitHub profile (Behance, Dribbble, GitHub, etc.)*
-                                                    </label>
-                                                    <textarea name="message"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="tp-contact-form-input mb-20">
-                                                    <label>What is your current salary and what are your salary expectations?*
-                                                    </label>
-                                                    <textarea name="message"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="tp-application-form-btn d-flex justify-content-between">
-                                                    <div class="tp-application-upload mb-15">
-                                                        <span>Upload your CV *</span>
-                                                        <input type="file">
+                                                <div class="tp-application-form-btn d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+                                                    <div class="tp-application-upload mb-10">
+                                                        <span>Upload your CV (PDF/DOC)*</span>
+                                                        <input id="cv" name="cv" type="file" accept=".pdf,.doc,.docx" required>
                                                     </div>
-                                                    <div class="tp-application-btn mb-15 mt-10">
+                                                    <div class="tp-application-btn mb-10 mt-10">
                                                         <button type="submit" class="tp-btn-yellow-green green-solid btn-60">
                                                             <span>
-                                                                <span class="text-1">Submit Now</span>
-                                                                <span class="text-2">Submit Now</span>
+                                                                <span class="text-1">Submit Application</span>
+                                                                <span class="text-2">Submit Application</span>
                                                             </span>
                                                             <i>
                                                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -309,6 +294,9 @@
                                                         </button>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div id="form-status" class="mt-10" aria-live="polite"></div>
                                             </div>
                                         </div>
                                     </form>
@@ -352,17 +340,15 @@
                         <div class="col-xl-5 col-lg-4 col-md-6">
                             <div class="tp-footer-widget tp-footer-col-2 pb-40 tp_fade_anim" data-delay=".5">
                                 <h4 class="tp-footer-widget-title-sm pre mb-25">Quick links</h4>
-                                <div class="tp-footer-widget-menu">
-                                    <ul>
-                                        
-                                        <li><a href="#">Who we are</a></li>
-                                        <li><a href="#">Services</a></li>
-                                        <li><a href="portfolio-masonry-light.html">Projects</a></li>
-                                        <!-- <li><a href="#">Blog</a></li>-->
-                                        <!-- <li><a href="#">Pricing</a></li>-->
-                                        <li><a href="contact-us-light.html">Contact Us</a></li>
-                                    </ul>
-                                </div>
+                                    <div class="tp-footer-widget-menu">
+                                        <ul>
+                                            <li><a href="index.html">Home</a></li>
+                                            <li><a href="portfolio-masonry-light.html">Projects</a></li>
+                                            <li><a href="career-light.html">Careers</a></li>
+                                            <li><a href="job-application-form.html">Job Application</a></li>
+                                            <li><a href="contact-us-light.html">Contact Us</a></li>
+                                        </ul>
+                                    </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6">
@@ -421,6 +407,44 @@
     <!-- JS here -->
 
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('job-application-form');
+            const positionField = document.getElementById('position');
+            const statusBox = document.getElementById('form-status');
+            const urlPosition = new URLSearchParams(window.location.search).get('position');
+
+            if (urlPosition && positionField) {
+                positionField.value = decodeURIComponent(urlPosition);
+            }
+
+            const setStatus = (message, isError = false) => {
+                if (!statusBox) return;
+                statusBox.textContent = message;
+                statusBox.style.color = isError ? '#d9534f' : '#1f8b4c';
+            };
+
+            form?.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                setStatus('Submitting application...');
+
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch(form.action, { method: 'POST', body: formData });
+                    const text = await response.text();
+                    if (response.ok) {
+                        form.reset();
+                        setStatus('Thank you! Your application has been submitted.');
+                    } else {
+                        setStatus(text || 'There was a problem submitting your application. Please try again.', true);
+                    }
+                } catch (error) {
+                    setStatus('Network error. Please try again.', true);
+                }
+            });
+        });
+    </script>
     <script src="assets/js/vendor/jquery.js"></script>
     <script src="assets/js/bootstrap-bundle.js"></script>
     <script src="assets/js/swiper-bundle.js"></script>
