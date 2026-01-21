@@ -44,7 +44,7 @@ $cvContent  = file_get_contents($cvFile['tmp_name']);
 $cvFilename = basename($cvFile['name']);
 $cvMime     = mime_content_type($cvFile['tmp_name']) ?: 'application/octet-stream';
 
-$recipient = "sanjulathilan12321@gmail.com"; // You can change the email recipient address here in the future if needed
+$recipient = "careers@novalinkinnovations.com, thilan@novalinkiinovations.com"; // You can change the email recipient address here in the future if needed
 $subject   = 'New Job Application - ' . ($position ?: 'Unspecified role');
 
 $bodyText  = "A new job application has been submitted.\n\n";
