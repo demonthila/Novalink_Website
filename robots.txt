@@ -1,0 +1,25 @@
+# robots.txt for Novalink Innovations
+# https://www.novalinkinnovations.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas if any
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.php$
+Disallow: /assets/js/
+Disallow: /assets/css/
+
+# Allow important pages
+Allow: /index.html
+Allow: /career.html
+Allow: /contact-us-light.html
+Allow: /portfolio-masonry-light.html
+Allow: /faq-light.html
+
+# Sitemap location
+Sitemap: https://www.novalinkinnovations.com/sitemap.xml
+
+# Crawl-delay (optional, adjust as needed)
+Crawl-delay: 1
