@@ -74,6 +74,11 @@
     <link rel="stylesheet" href="assets/css/atropos.min.css">
     <link rel="stylesheet" href="assets/css/main.css">
     <!-- CSS here -->
+    <style>
+        .ajax-response { font-size: 0.95rem; min-height: 1.4em; }
+        .ajax-response.success { color: #1f8b4c; }
+        .ajax-response.error { color: #c0392b; }
+    </style>
     <!-- CSS here -->
 
 </head>
@@ -133,7 +138,7 @@
             <div class="tp-offcanvas-main">
                 <div class="tp-offcanvas-content d-none d-xl-block">
                     <h3 class="tp-offcanvas-title">Hello There!</h3>
-                    <p>Conatct US  </p>
+                    <p>Contact Us</p>
                 </div>
                 <div class="tp-offcanvas-menu d-xl-none">
                     <nav></nav>
@@ -332,25 +337,24 @@
                                 <div class="col-lg-6">
                                     <div class="tp-contact-us-wrap">
                                         <h4 class="tp-contact-us-title mb-55">Send a Message</h4>
-                                        <form id="contact-form" action="assets/mail.php" method="POST">
+                                        <form id="contact-form" action="assets/mail.php" method="POST" novalidate>
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="tp-contact-form-input mb-20">
-                                                        <label>Full name*</label>
-                                                        <input name="name" type="text">
+                                                        <label for="contact-name">Full name*</label>
+                                                        <input id="contact-name" name="name" type="text" required placeholder="Your name">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="tp-contact-form-input mb-20">
-                                                        <label>Email address*</label>
-                                                        <input name="email" type="email">
+                                                        <label for="contact-email">Email address*</label>
+                                                        <input id="contact-email" name="email" type="email" required placeholder="your@email.com">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="tp-contact-form-input mb-20">
-                                                        <label>How Can We Help You*
-                                                        </label>
-                                                        <textarea name="message"></textarea>
+                                                        <label for="contact-message">How Can We Help You*</label>
+                                                        <textarea id="contact-message" name="message" required placeholder="Your message..."></textarea>
                                                     </div>
                                                     <div class="tp-contact-form-btn">
                                                         <button class="w-100" type="submit"><span>
@@ -358,7 +362,7 @@
                                                                 <span class="text-2">Send Message</span>
                                                             </span>
                                                         </button>
-                                                        <p class="ajax-response mt-5"></p>
+                                                        <p class="ajax-response mt-5" aria-live="polite"></p>
                                                     </div>
                                                 </div>
                                             </div>

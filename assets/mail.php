@@ -1,6 +1,8 @@
 <?php
 /**
- * Job application handler with attachment support.
+ * Handles both:
+ * - Contact form (name, email, message)
+ * - Job application form (name, email, phone, cover_letter, position, portfolio, CV attachment)
  */
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -9,8 +11,43 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$name        = trim($_POST['name'] ?? '');
-$email       = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+$name  = trim($_POST['name'] ?? '');
+$email = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+$message = trim($_POST['message'] ?? '');
+
+// Contact form: name, email, message (no CV)
+$isContactForm = !empty($message) && !isset($_FILES['cv']) && empty($_POST['cover_letter'] ?? '');
+
+if ($isContactForm) {
+    // ---- CONTACT FORM ----
+    if (empty($name) || empty($email) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        http_response_code(400);
+        echo 'Please fill in all required fields (name, email, and message) with a valid email address.';
+        exit;
+    }
+
+    $recipient = 'info@novalinkinnovations.com';
+    $subject   = 'Contact Form – ' . mb_substr($message, 0, 50) . (mb_strlen($message) > 50 ? '…' : '');
+    $bodyText  = "New message from the Novalink website contact form.\n\n";
+    $bodyText .= "Name: {$name}\n";
+    $bodyText .= "Email: {$email}\n\n";
+    $bodyText .= "Message:\n{$message}\n";
+
+    $headers  = "From: {$name} <{$email}>\r\n";
+    $headers .= "Reply-To: {$email}\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
+    if (mail($recipient, $subject, $bodyText, $headers)) {
+        http_response_code(200);
+        echo 'Thank you! Your message has been sent. We will get back to you soon.';
+    } else {
+        http_response_code(500);
+        echo 'Sorry, we could not send your message. Please try again or email us at info@novalinkinnovations.com.';
+    }
+    exit;
+}
+
+// ---- JOB APPLICATION FORM ----
 $phone       = trim($_POST['phone'] ?? '');
 $coverLetter = trim($_POST['cover_letter'] ?? '');
 $portfolio   = trim($_POST['portfolio'] ?? '');
@@ -44,8 +81,8 @@ $cvContent  = file_get_contents($cvFile['tmp_name']);
 $cvFilename = basename($cvFile['name']);
 $cvMime     = mime_content_type($cvFile['tmp_name']) ?: 'application/octet-stream';
 
-$recipient = "careers@novalinkinnovations.com, thilan@novalinkiinovations.com"; // You can change the email recipient address here in the future if needed
-$subject   = 'New Job Application - ' . ($position ?: 'Unspecified role');
+$recipient = 'careers@novalinkinnovations.com';
+$subject   = 'New Job Application – ' . ($position ?: 'Unspecified role');
 
 $bodyText  = "A new job application has been submitted.\n\n";
 $bodyText .= "Applicant name: {$name}\n";
@@ -61,23 +98,21 @@ $headers .= "Reply-To: {$email}\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: multipart/mixed; boundary=\"{$boundary}\"\r\n";
 
-$message  = "--{$boundary}\r\n";
-$message .= "Content-Type: text/plain; charset=\"UTF-8\"\r\n";
-$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-$message .= "{$bodyText}\r\n";
+$emailBody  = "--{$boundary}\r\n";
+$emailBody .= "Content-Type: text/plain; charset=\"UTF-8\"\r\n";
+$emailBody .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+$emailBody .= "{$bodyText}\r\n";
+$emailBody .= "--{$boundary}\r\n";
+$emailBody .= "Content-Type: {$cvMime}; name=\"{$cvFilename}\"\r\n";
+$emailBody .= "Content-Transfer-Encoding: base64\r\n";
+$emailBody .= "Content-Disposition: attachment; filename=\"{$cvFilename}\"\r\n\r\n";
+$emailBody .= chunk_split(base64_encode($cvContent)) . "\r\n";
+$emailBody .= "--{$boundary}--";
 
-$message .= "--{$boundary}\r\n";
-$message .= "Content-Type: {$cvMime}; name=\"{$cvFilename}\"\r\n";
-$message .= "Content-Transfer-Encoding: base64\r\n";
-$message .= "Content-Disposition: attachment; filename=\"{$cvFilename}\"\r\n\r\n";
-$message .= chunk_split(base64_encode($cvContent)) . "\r\n";
-$message .= "--{$boundary}--";
-
-if (mail($recipient, $subject, $message, $headers)) {
+if (mail($recipient, $subject, $emailBody, $headers)) {
     http_response_code(200);
     echo 'Thank you! Your application has been submitted.';
 } else {
     http_response_code(500);
     echo 'Oops! Something went wrong and we could not send your application.';
 }
-?>

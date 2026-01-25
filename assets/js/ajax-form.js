@@ -1,48 +1,33 @@
 $(function() {
-
-	// Get the form.
 	var form = $('#contact-form');
-
-	// Get the messages div.
 	var formMessages = $('.ajax-response');
 
-	// Set up an event listener for the contact form.
-	$(form).on("submit", function(e) {
-		// Stop the browser from submitting the form.
+	if (!form.length || !formMessages.length) return;
+
+	form.on('submit', function(e) {
 		e.preventDefault();
 
-		// Serialize the form data.
-		var formData = $(form).serialize();
+		var $btn = form.find('button[type="submit"]');
+		var btnText = $btn.find('.text-1').text();
+		$btn.prop('disabled', true).find('.text-1').text('Sending…');
+		formMessages.removeClass('success error').text('');
 
-		// Submit the form using AJAX.
 		$.ajax({
 			type: 'POST',
-			url: $(form).attr('action'),
-			data: formData
+			url: form.attr('action'),
+			data: form.serialize()
 		})
 		.done(function(response) {
-			// Make sure that the formMessages div has the 'success' class.
-			$(formMessages).removeClass('error');
-			$(formMessages).addClass('success');
-
-			// Set the message text.
-			$(formMessages).text(response);
-
-			// Clear the form.
-			$('#contact-form input,#contact-form textarea').val('');
+			formMessages.removeClass('error').addClass('success').text(response || 'Thank you! Your message has been sent.');
+			form.find('input, textarea').val('');
 		})
-		.fail(function(data) {
-			// Make sure that the formMessages div has the 'error' class.
-			$(formMessages).removeClass('success');
-			$(formMessages).addClass('error');
-
-			// Set the message text.
-			if (data.responseText !== '') {
-				$(formMessages).text(data.responseText);
-			} else {
-				$(formMessages).text('Oops! An error occured and your message could not be sent.');
-			}
+		.fail(function(xhr) {
+			formMessages.removeClass('success').addClass('error');
+			var msg = (xhr.responseText && xhr.responseText.trim()) ? xhr.responseText.trim() : 'Oops! An error occurred and your message could not be sent. Please try again or email us at info@novalinkinnovations.com.';
+			formMessages.text(msg);
+		})
+		.always(function() {
+			$btn.prop('disabled', false).find('.text-1').text(btnText);
 		});
 	});
-
 });
