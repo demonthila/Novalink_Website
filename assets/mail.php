@@ -81,7 +81,7 @@ $cvContent  = file_get_contents($cvFile['tmp_name']);
 $cvFilename = basename($cvFile['name']);
 $cvMime     = mime_content_type($cvFile['tmp_name']) ?: 'application/octet-stream';
 
-$recipient = 'careers@novalinkinnovations.com';
+$recipient = 'novalinkhelp@gmail.com';
 $subject   = 'New Job Application – ' . ($position ?: 'Unspecified role');
 
 $bodyText  = "A new job application has been submitted.\n\n";
